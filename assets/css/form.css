@@ -1,0 +1,29 @@
+.back {
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #2c2a2a;
+    background: #4e6abd; }
+
+.kepala{
+    padding: 10px 11px 10px 11px;
+    width: 1000px;
+    border-radius: 30px;
+}
+
+.kotak{
+    padding: 30px 0px 10px 10px;
+  }
+
+  .middle
+{
+  margin:50px 120px 50px 120px;
+}
+.page-form{
+    width: 1000px;
+    margin: 50px 100px 10px 180px;
+    background-color: #fff;
+    padding: 10px 11px 10px 11px;
+    border-radius: 30px;
+}
