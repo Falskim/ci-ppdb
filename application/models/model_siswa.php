@@ -163,6 +163,12 @@ class model_siswa extends CI_model
         $this->db->update('siswa', $data);
     }
 
+    public function approve_siswa($id){
+        $this->db->where('id', $id);
+        $this->db->set('status_lolos', 1);
+        $this->db->update('siswa');
+    }
+
     //DELETE
     public function hapusdatasiswa($id)
     {

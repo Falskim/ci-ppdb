@@ -52,12 +52,11 @@
                             <th>Prodi</th>
                             <th>Asal Sekolah</th>
                             <th>Action</th>
-                            <th>Status</th>
+                            <th colspan="2">Status Lolos</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        foreach ($siswa as $ssw) : ?>
+                        <?php foreach ($siswa as $ssw) : ?>
                             <tr>
                                 <td><?= $ssw['Nama_Siswa'] ?></td>
                                 <td><?= $ssw['NISN'] ?></td>
@@ -68,42 +67,24 @@
                                     <a href="<?= base_url(); ?>admin_dash/edit/<?= $ssw['id']; ?>"><i class="fa fa-edit"></i></a>
                                     <a href="<?= base_url(); ?>admin_dash/hapus/<?= $ssw['id']; ?>" onclick="return confirm('Yakin untuk menghapus ?');"><i class="fa fa-trash-o"></i></a>
                                 </td>
-                                <td>
-                                    <a class="mb-xs mt-xs mr-xs btn-sm modal-basic btn btn-warning" name="verif" href="#verif">Verifikasi</a>
-                                    <div id="verif" class="modal-block modal-header-color modal-block-warning mfp-hide">
-                                        <section class="panel">
-                                            <header class="panel-heading">
-                                                <h2 class="panel-title">Apakah anda yakin ?</h2>
-                                            </header>
-                                            <div class="panel-body">
-                                                <div class="modal-wrapper">
-                                                    <div class="modal-icon">
-                                                        <i class="fa fa-question-circle"></i>
-                                                    </div>
-                                                    <div class="modal-text">
-                                                        <h4>Verifikasi</h4>
-                                                        <p>Apakah anda yakin untuk memverifikasi ?</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <footer class="panel-footer">
-                                                <div class="row">
-                                                    <div class="col-md-12 text-right">
-                                                        <?php if($ssw->status == 0):?>
-                                                            <form class="approval" action="<?= base_url('admin_dash/approve_siswa/'.$ssw->id)?>">
-                                                                <input type="submit" name="" value="SETUJUI">
-                                                            </form>
-                                                        <?php elseif($ssw->status == 1):?>
-                                                            <form class="approval">
-                                                                <input type="submit" disabled value="APPROVED">
-                                                            </form>
-                                                        <?php endif?>
-                                                    </div>
-                                                </div>
-                                            </footer>
-                                        </section>
-                                    </div>
-                                </td>
+
+                                <!-- 'status_lolos' pending (0)-->
+                                <?php if ($ssw['status_lolos'] == 0) : ?>
+                                    <td class="text-center">
+                                        <span class="text-warning"> Pending </span>
+                                    </td>
+                                    <td>
+                                        <a class="mb-xs mt-xs mr-xs btn-sm modal-basic btn btn-warning" name="verif" href="#verif" onclick="updateStudentID(this)" data-student="<?= $ssw['id'] ?>">Verifikasi</a>
+                                    </td>
+                                    <!-- 'status_lolos' = lolos (1)-->
+                                <?php else : ?>
+                                    <td class="text-center">
+                                        <span class="text-success"> Lolos </span>
+                                    </td>
+                                    <td>
+                                        <a class="mb-xs mt-xs mr-xs btn-sm modal-basic btn btn-success">Approved</a>
+                                    </td>
+                                <?php endif ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -111,14 +92,39 @@
             </div>
         </div>
 
+        <div id="verif" class="modal-block modal-header-color modal-block-warning mfp-hide">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Apakah anda yakin ?</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="modal-wrapper">
+                        <div class="modal-icon">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                        <div class="modal-text">
+                            <h4>Verifikasi</h4>
+                            <p>Apakah anda yakin untuk memverifikasi ?</p>
+                        </div>
+                    </div>
+                </div>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <a href="<?= base_url(); ?>admin_dash/detail/<?= $ssw['id']; ?>">
+                                <form id="modal-test" class="approval" action="<?= base_url('admin_dash/approve_siswa/'); ?>">
+                                    <input type="submit" name="" value="SETUJUI">
+                                </form>
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </div>
     </section>
     <!-- end: page -->
+    <script>
+        function updateStudentID(el) {
+            document.getElementById('modal-test').action = document.getElementById('modal-test').action + el.dataset.student;
+        }
+    </script>
 </section>
-</div>
-</section>
-
-</div>
-</section>
-
-
-</div>

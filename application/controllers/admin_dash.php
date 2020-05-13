@@ -108,9 +108,11 @@ class admin_dash extends CI_Controller
 
     // Verifikasi
     public function approve_siswa($id){
-        $this->Model->approve_siswa($id);
-        $this->Model->send_email($id);
-        $this->approve_success();
+        $this->model_siswa->approve_siswa($id);
+        $target_email = ($this->model_siswa->getsiswabyid($id))['Email'];
+        // $this->send_email($target_email);
+        // $this->approve_success();
+        redirect('admin_dash/pendaftar');
     }
     public function approve_success()
     {
@@ -123,9 +125,8 @@ class admin_dash extends CI_Controller
     }
 
     // Send Email
-    public function send_email() { 
+    public function send_email($to_email) {
         $from_email = "sender_email@gmail.com"; 
-        $to_email = $this->input->post($email); 
         $config = Array(
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -138,7 +139,7 @@ class admin_dash extends CI_Controller
         $this->load->library('email', $config);
         $this->email->set_newline("\r\n");   
 
-        $this->email->from($from_email, ’Nama Kamu’); 
+        $this->email->from($from_email, 'Nama Kamu'); 
         $this->email->to($to_email);
         $this->email->subject('Test Pengiriman Email'); 
         $this->email->message('Test send email.'); 
